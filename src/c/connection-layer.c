@@ -37,6 +37,8 @@ ConnectionLayer *connection_layer_create(GRect frame) {
     Data *data = layer_get_data(this);
 
     data->gpath = gpath_create(&PATH_INFO);
+    GRect bounds = layer_get_bounds(this);
+		gpath_move_to(data->gpath, GPoint(bounds.size.w/2 - 4,0));//Here we align character horizontally to center the layer. 4 is half-width of the characher
 
     connection_handler(connection_service_peek_pebble_app_connection(), this);
     data->connection_event_handle = events_connection_service_subscribe_context((EventConnectionHandlers) {

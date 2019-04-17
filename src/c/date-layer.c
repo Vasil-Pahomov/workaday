@@ -8,19 +8,10 @@
 #include "date-layer.h"
 
 typedef struct __attribute__((packed)) {
-    char buf_date[11];
-//#ifndef PBL_PLATFORM_APLITE
-    //char buf_wday[4];
-//    SlidingTextLayer *text_layer;
-//#else
+    char buf_date[16];
     TextLayer *text_layer;
-//#endif
     EventHandle tick_timer_event_handle;
     EventHandle settings_event_handle;
-#ifndef PBL_PLATFORM_APLITE
-    EventHandle tap_event_handle;
-    AppTimer *tap_timer;
-#endif
 } Data;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *context) {
@@ -28,50 +19,84 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *co
     Data *data = layer_get_data(context);
     const char *format = enamel_get_DATE_FORMAT();
     if (strlen(format) == 0) {
-        strftime(data->buf_date, sizeof(data->buf_date), tick_time->tm_mday < 10 ? "%b %e %a" : "%b %d %a", tick_time);
+				char * buf = data->buf_date;
+				switch (tick_time->tm_wday) {
+					case 0:
+						strcpy(buf,"Вс, "); 
+						break;
+					case 1:
+						strcpy(buf,"Пн, "); 
+						break;
+					case 2:
+						strcpy(buf,"Вт, "); 
+						break;
+					case 3:
+						strcpy(buf,"Ср, "); 
+						break;
+					case 4:
+						strcpy(buf,"Чт, "); 
+						break;
+					case 5:
+						strcpy(buf,"Пт, "); 
+						break;
+					case 6:
+						strcpy(buf,"Сб, "); 
+						break;
+				}
+				buf+=6;
+				snprintf(buf, 3, "%d", tick_time->tm_mday);
+				while(buf[0] != 0) {
+					buf++;
+				}
+
+				switch (tick_time->tm_mon) {
+					case 0:
+						strcpy(buf," Янв"); 
+						break;
+					case 1:
+						strcpy(buf," Фев"); 
+						break;
+					case 2:
+						strcpy(buf," Мар"); 
+						break;
+					case 3:
+						strcpy(buf," Апр"); 
+						break;
+					case 4:
+						strcpy(buf," Май"); 
+						break;
+					case 5:
+						strcpy(buf," Июн"); 
+						break;
+					case 6:
+						strcpy(buf," Июл"); 
+						break;
+					case 7:
+						strcpy(buf," Авг"); 
+						break;
+					case 8:
+						strcpy(buf," Сен"); 
+						break;
+					case 9:
+						strcpy(buf," Окт"); 
+						break;
+					case 10:
+						strcpy(buf," Ноя"); 
+						break;
+					case 11:
+						strcpy(buf," Дек"); 
+						break;
+				}
     } else {
         strftime(data->buf_date, sizeof(data->buf_date), format, tick_time);
     }
-#ifndef PBL_PLATFORM_APLITE
-//    strftime(data->buf_wday, sizeof(data->buf_wday), "%a", tick_time);
-#endif
     layer_mark_dirty(context);
 }
-
-#ifndef PBL_PLATFORM_APLITE
-/*static void app_timer_callback(void *context) {
-    log_func();
-    Data *data = layer_get_data(context);
-    data->tap_timer = NULL;
-		text_layer_set_text(data->text_layer, data->buf_date);
-    //sliding_text_layer_set_next_text(data->text_layer, data->buf_date);
-    //sliding_text_layer_animate_up(data->text_layer);
-}
-
-static void tap_handler(AccelAxisType axis, int32_t direction, void *context) {
-    log_func();
-    if (axis > 0) {
-        Data *data = layer_get_data(context);
-        if (data->tap_timer == NULL) {
-            text_layer_set_text(data->text_layer, data->buf_wday);
-						//sliding_text_layer_set_next_text(data->text_layer, data->buf_wday);
-            //sliding_text_layer_animate_down(data->text_layer);
-            data->tap_timer = app_timer_register(4000, app_timer_callback, context);
-        }
-    }
-}
-*/
-#endif
 
 static void settings_handler(void *context) {
     log_func();
     Data *data = layer_get_data(context);
-//#ifndef PBL_PLATFORM_APLITE
-    //sliding_text_layer_set_text_color(data->text_layer, colors_get_foreground_color());
-//#else
     text_layer_set_text_color(data->text_layer, colors_get_foreground_color());
-//#endif
-
     time_t now = time(NULL);
     tick_handler(localtime(&now), DAY_UNIT, context);
 }
@@ -81,16 +106,7 @@ DateLayer *date_layer_create(GRect frame) {
     DateLayer *this = layer_create_with_data(frame, sizeof(Data));
     Data *data = layer_get_data(this);
     GRect bounds = layer_get_bounds(this);
-    uint8_t x = PBL_IF_DISPLAY_LARGE_ELSE(15, 10);
-
-//#ifndef PBL_PLATFORM_APLITE
-//    data->text_layer = sliding_text_layer_create(GRect(x, 1, bounds.size.w - x, bounds.size.h - 1));
-//    sliding_text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_25, RESOURCE_ID_GILROY_LIGHT_18)));
-//    sliding_text_layer_set_text(data->text_layer, data->buf_date);
-//    sliding_text_layer_set_duration(data->text_layer, 500);
-//    layer_add_child(this, data->text_layer);
-//#else
-    data->text_layer = text_layer_create(GRect(x, 1, bounds.size.w - x, bounds.size.h - 1));
+    data->text_layer = text_layer_create(GRect(0, 2, bounds.size.w, bounds.size.h-2));
     text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_25, RESOURCE_ID_GILROY_LIGHT_18))); 
     text_layer_set_text(data->text_layer, data->buf_date);
     text_layer_set_text_alignment(data->text_layer, GTextAlignmentCenter);

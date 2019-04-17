@@ -123,62 +123,10 @@ static void health_event_handler(HealthEventType event, void *context) {
         } else {
             data->typical = 0;
         }
-/*
-        mask = health_service_metric_accessible(HealthMetricWalkedDistanceMeters, start, end);
-        if (mask & HealthServiceAccessibilityMaskAvailable) {
-            HealthValue distance = health_service_sum_today(HealthMetricWalkedDistanceMeters);
-            MeasurementSystem system = health_service_get_measurement_system_for_display(HealthMetricWalkedDistanceMeters);
-            if (system != MeasurementSystemImperial) {
-                if (distance < 100) {
-                    snprintf(data->buf_distance, sizeof(data->buf_distance), "%ldm", distance);
-                } else if (distance < 1000) {
-                    distance /= 100;
-                    snprintf(data->buf_distance, sizeof(data->buf_distance), ".%ldkm", distance);
-                } else {
-                    distance /= 1000;
-                    snprintf(data->buf_distance, sizeof(data->buf_distance), "%ldkm", distance);
-                }
-            } else {
-                int tenths = distance * 10 / 1609 % 10;
-                int whole = distance / 1609;
-                if (whole < 10) {
-                    snprintf(data->buf_distance, sizeof(data->buf_distance), "%d.%dmi", whole, tenths);
-                } else {
-                    snprintf(data->buf_distance, sizeof(data->buf_distance), "%dmi", whole);
-                }
-            }
-        } else {
-            snprintf(data->buf_distance, sizeof(data->buf_distance), "0");
-        }
-*/
         layer_mark_dirty(context);
     }
 #endif
 }
-/*
-static void app_timer_callback(void *context) {
-    log_func();
-    Data *data = layer_get_data(context);
-    data->tap_timer = NULL;
-    //sliding_text_layer_set_next_text(data->text_layer, data->buf_steps);
-    //sliding_text_layer_animate_up(data->text_layer);
-		text_layer_set_text(data->text_layer, data->buf_steps);
-}
-
-static void tap_handler(AccelAxisType axis, int32_t direction, void *context) {
-    log_func();
-    if (axis > 0) {
-        Data *data = layer_get_data(context);
-        if (data->tap_timer == NULL) {
-            //sliding_text_layer_set_next_text(data->text_layer, data->buf_distance);
-            //sliding_text_layer_animate_down(data->text_layer);
-						text_layer_set_text(data->text_layer, data->buf_distance);
-
-            data->tap_timer = app_timer_register(4000, app_timer_callback, context);
-        }
-    }
-}
-*/
 
 static void settings_handler(void *context) {
     log_func();

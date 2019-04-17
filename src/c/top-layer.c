@@ -23,7 +23,6 @@ static void update_proc(Layer *this, GContext *ctx) {
 
     graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
     graphics_draw_line(ctx, GPoint(0, TOP_LAYER_HEIGHT - 1), GPoint(bounds.size.w, TOP_LAYER_HEIGHT - 1));
-    //graphics_draw_line(ctx, GPoint(width, 0), GPoint(width, TOP_LAYER_HEIGHT));
 }
 
 TopLayer *top_layer_create(GRect frame) {
@@ -32,20 +31,19 @@ TopLayer *top_layer_create(GRect frame) {
     layer_set_update_proc(this, update_proc);
     Data *data = layer_get_data(this);
     GRect bounds = layer_get_bounds(this);
-    uint8_t width = bounds.size.w - PBL_IF_DISPLAY_LARGE_ELSE(40, 30);
 
 #ifndef PBL_PLATFORM_APLITE
-    data->quiet_time_layer = quiet_time_layer_create(GRect(0, 0, PBL_IF_DISPLAY_LARGE_ELSE(14, 10), TOP_LAYER_HEIGHT));
+    data->quiet_time_layer = quiet_time_layer_create(GRect(0, 0, CB_WIDTH, TOP_LAYER_HEIGHT));
     layer_add_child(this, data->quiet_time_layer);
 #endif
 
-    data->connection_layer = connection_layer_create(GRect(0, 0, width, TOP_LAYER_HEIGHT));
+    data->connection_layer = connection_layer_create(GRect(0, 0, CB_WIDTH, TOP_LAYER_HEIGHT));
     layer_add_child(this, data->connection_layer);
 
-    data->date_layer = date_layer_create(GRect(0, 0, width - 4, TOP_LAYER_HEIGHT));
+    data->date_layer = date_layer_create(GRect(0, 0, bounds.size.w, TOP_LAYER_HEIGHT));
     layer_add_child(this, data->date_layer);
 
-    data->battery_layer = battery_layer_create(GRect(width + 4, 0, width - 4, TOP_LAYER_HEIGHT));
+    data->battery_layer = battery_layer_create(GRect(bounds.size.w - CB_WIDTH, 0, bounds.size.w, TOP_LAYER_HEIGHT));
     layer_add_child(this, data->battery_layer);
 
     return this;

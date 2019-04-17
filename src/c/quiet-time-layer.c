@@ -14,7 +14,8 @@ static void update_proc(Layer *this, GContext *ctx) {
 
     Data *data = layer_get_data(this);
     graphics_context_set_text_color(ctx, colors_get_foreground_color());
-    graphics_draw_text(ctx, "Q T", data->font, layer_get_bounds(this), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
+    GRect bounds = layer_get_bounds(this);
+    graphics_draw_text(ctx, "Q T", data->font, GRect(bounds.size.w/2-5, 1, 10, bounds.size.h-1), GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
 }
 
 QuietTimeLayer *quiet_time_layer_create(GRect frame) {

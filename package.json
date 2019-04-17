@@ -81,7 +81,7 @@
           "type": "font",
           "name": "GILROY_LIGHT_18",
           "file": "fonts/Gilroy.ttf",
-          "characterRegex": "[0-9a-zA-Z :%./]",
+          "characterRegex": "[а-яА-Я0-9k, :%./]",
           "targetPlatforms": [
             "aplite",
             "basalt",
@@ -103,7 +103,7 @@
           "type": "font",
           "name": "GILROY_LIGHT_25",
           "file": "fonts/Gilroy.ttf",
-          "characterRegex": "[0-9a-zA-Z :%.]",
+          "characterRegex": "[а-яА-Я0-9k, :%.]",
           "targetPlatforms": [
             "emery"
           ]
