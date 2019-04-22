@@ -43,7 +43,7 @@ static void update_proc(Layer *this, GContext *ctx) {
 				
         graphics_context_set_fill_color(ctx, color);
 
-        int w = (BAT_W-3) * percent / 100;
+        int w = (BAT_W-4) * percent / 100;
         graphics_fill_rect(ctx, GRect(2, BAT_T+2, w, BAT_H-3), 0, GCornerNone);
     }
 }
