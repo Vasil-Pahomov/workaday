@@ -22,25 +22,25 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *co
 				char * buf = data->buf_date;
 				switch (tick_time->tm_wday) {
 					case 0:
-						strcpy(buf,"Вс, "); 
+						strcpy(buf,"вс, "); 
 						break;
 					case 1:
-						strcpy(buf,"Пн, "); 
+						strcpy(buf,"пн, "); 
 						break;
 					case 2:
-						strcpy(buf,"Вт, "); 
+						strcpy(buf,"вт, "); 
 						break;
 					case 3:
-						strcpy(buf,"Ср, "); 
+						strcpy(buf,"ср, "); 
 						break;
 					case 4:
-						strcpy(buf,"Чт, "); 
+						strcpy(buf,"чт, "); 
 						break;
 					case 5:
-						strcpy(buf,"Пт, "); 
+						strcpy(buf,"пт, "); 
 						break;
 					case 6:
-						strcpy(buf,"Сб, "); 
+						strcpy(buf,"сб, "); 
 						break;
 				}
 				buf+=6;
@@ -51,40 +51,40 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *co
 
 				switch (tick_time->tm_mon) {
 					case 0:
-						strcpy(buf," Янв"); 
+						strcpy(buf," янв"); 
 						break;
 					case 1:
-						strcpy(buf," Фев"); 
+						strcpy(buf," фев"); 
 						break;
 					case 2:
-						strcpy(buf," Мар"); 
+						strcpy(buf," мар"); 
 						break;
 					case 3:
-						strcpy(buf," Апр"); 
+						strcpy(buf," апр"); 
 						break;
 					case 4:
-						strcpy(buf," Май"); 
+						strcpy(buf," май"); 
 						break;
 					case 5:
-						strcpy(buf," Июн"); 
+						strcpy(buf," июн"); 
 						break;
 					case 6:
-						strcpy(buf," Июл"); 
+						strcpy(buf," июл"); 
 						break;
 					case 7:
-						strcpy(buf," Авг"); 
+						strcpy(buf," авг"); 
 						break;
 					case 8:
-						strcpy(buf," Сен"); 
+						strcpy(buf," сен"); 
 						break;
 					case 9:
-						strcpy(buf," Окт"); 
+						strcpy(buf," окт"); 
 						break;
 					case 10:
-						strcpy(buf," Ноя"); 
+						strcpy(buf," ноя"); 
 						break;
 					case 11:
-						strcpy(buf," Дек"); 
+						strcpy(buf," дек"); 
 						break;
 				}
     } else {
