@@ -31,7 +31,7 @@ static void update_proc(Layer *this, GContext *ctx) {
     gdraw_command_image_draw(ctx, data->steps_pdc, offset);
 
     int h = PBL_IF_DISPLAY_LARGE_ELSE(8, 6);
-    GRect rect = GRect(bounds.origin.x + 6, bounds.size.h - h - 2, bounds.size.w - 7, h);
+/*    GRect rect = GRect(bounds.origin.x + 6, bounds.size.h - h - 2, bounds.size.w - 7, h);
 #ifdef PBL_COLOR
     graphics_context_set_fill_color(ctx, colors_get_foreground_color());
     graphics_fill_rect(ctx, grect_crop(rect, -1), h + 1, GCornersAll);
@@ -69,7 +69,7 @@ static void update_proc(Layer *this, GContext *ctx) {
             }
         }
     }
-
+*/
 }
 
 static void health_event_handler(HealthEventType event, void *context) {
@@ -104,18 +104,18 @@ static void health_event_handler(HealthEventType event, void *context) {
             HealthValue steps = health_service_sum_today(HealthMetricStepCount);
             data->steps = steps;
             logd("steps: %ld", data->steps);
-            if (steps < 1000) {
+//            if (steps < 1000) {
                 snprintf(data->buf_steps, sizeof(data->buf_steps), "%ld", steps);
-            } else {
-                int t = steps / 1000;
-                int h = steps / 100 % 10;
-                snprintf(data->buf_steps, sizeof(data->buf_steps), "%d.%dk", t, h);
-            }
+//            } else {
+//                int t = steps / 1000;
+//                int h = steps / 100 % 10;
+//                snprintf(data->buf_steps, sizeof(data->buf_steps), "%d.%dk", t, h);
+//            }
         } else {
             snprintf(data->buf_steps, sizeof(data->buf_steps), "0");
             data->steps = 0;
         }
-
+/*
         mask = health_service_metric_averaged_accessible(HealthMetricStepCount, start, end, HealthServiceTimeScopeWeekly);
         if (mask & HealthServiceAccessibilityMaskAvailable) {
             data->typical = health_service_sum_averaged(HealthMetricStepCount, start, end, HealthServiceTimeScopeWeekly);
@@ -123,7 +123,7 @@ static void health_event_handler(HealthEventType event, void *context) {
         } else {
             data->typical = 0;
         }
-        layer_mark_dirty(context);
+*/        layer_mark_dirty(context);
     }
 #endif
 }
@@ -158,9 +158,9 @@ StepLayer *step_layer_create(GRect frame) {
     //layer_add_child(this, data->text_layer);
 
 		data->text_layer = text_layer_create(GRect(0, 3, bounds.size.w - size.w, bounds.size.h - 3));
-    text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_25, RESOURCE_ID_GILROY_LIGHT_18))); 
+    text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_30, RESOURCE_ID_GILROY_LIGHT_22))); 
     text_layer_set_text(data->text_layer, data->buf_steps);
-    text_layer_set_text_alignment(data->text_layer, GTextAlignmentCenter);
+    text_layer_set_text_alignment(data->text_layer, GTextAlignmentRight);
     text_layer_set_background_color(data->text_layer, GColorClear);
     layer_add_child(this, text_layer_get_layer(data->text_layer));
 

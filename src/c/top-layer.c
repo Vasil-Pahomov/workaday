@@ -19,10 +19,12 @@ typedef struct __attribute__((packed)) {
 
 static void update_proc(Layer *this, GContext *ctx) {
     log_func();
+	/*
     GRect bounds = layer_get_bounds(this);
 
     graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
     graphics_draw_line(ctx, GPoint(0, TOP_LAYER_HEIGHT - 1), GPoint(bounds.size.w, TOP_LAYER_HEIGHT - 1));
+	*/
 }
 
 TopLayer *top_layer_create(GRect frame) {
