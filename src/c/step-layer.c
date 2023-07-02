@@ -157,7 +157,7 @@ StepLayer *step_layer_create(GRect frame) {
     //sliding_text_layer_set_duration(data->text_layer, 500);
     //layer_add_child(this, data->text_layer);
 
-		data->text_layer = text_layer_create(GRect(0, 3, bounds.size.w - size.w, bounds.size.h - 3));
+		data->text_layer = text_layer_create(GRect(0, 3, bounds.size.w - size.w - 3, bounds.size.h - 3));
     text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_30, RESOURCE_ID_GILROY_LIGHT_22))); 
     text_layer_set_text(data->text_layer, data->buf_steps);
     text_layer_set_text_alignment(data->text_layer, GTextAlignmentRight);
