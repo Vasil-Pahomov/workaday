@@ -8,7 +8,7 @@ static const GPathInfo PATH_INFO = {
 #ifdef PBL_DISPLAY_LARGE
     .points = (GPoint []) {{0, 10}, {12, 23}, {5, 29}, {5, 4}, {12, 10}, {0, 23}, {5, 17}}
 #else
-    .points = (GPoint []) {{0, 8}, {8, 16}, {4, 20}, {4, 4}, {8, 8}, {0, 16}, {4, 12}}
+    .points = (GPoint []) {{8, 0}, {16, 8}, {20, 4}, {4, 4}, {8, 8}, {16, 0}, {12, 4}}
 #endif
 };
 
@@ -26,7 +26,7 @@ static void update_proc(Layer *this, GContext *ctx) {
 }
 
 static void connection_handler(bool connected, void *context) {
-    log_func();
+    log_func(); 
     layer_set_hidden(context, !connected);
 }
 
@@ -38,7 +38,7 @@ ConnectionLayer *connection_layer_create(GRect frame) {
 
     data->gpath = gpath_create(&PATH_INFO);
     GRect bounds = layer_get_bounds(this);
-		gpath_move_to(data->gpath, GPoint(bounds.size.w/2 - 4,0));//Here we align character horizontally to center the layer. 4 is half-width of the characher
+	gpath_move_to(data->gpath, GPoint(0, bounds.size.h - 10));
 
     connection_handler(connection_service_peek_pebble_app_connection(), this);
     data->connection_event_handle = events_connection_service_subscribe_context((EventConnectionHandlers) {

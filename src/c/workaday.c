@@ -32,12 +32,13 @@ static void window_load(Window *window) {
     s_time_layer = time_layer_create(bounds);
     layer_add_child(root_layer, s_time_layer);
 
-    s_top_layer = top_layer_create(GRect(0, 0, bounds.size.w, TOP_LAYER_HEIGHT));
+    s_top_layer = top_layer_create(GRect(bounds.size.w-TOP_LAYER_HEIGHT, 0, TOP_LAYER_HEIGHT, bounds.size.h));
     layer_add_child(root_layer, s_top_layer);
 
-    bounds = layer_get_unobstructed_bounds(root_layer);
+/*    bounds = layer_get_unobstructed_bounds(root_layer);
     s_bottom_layer = bottom_layer_create(GRect(0, bounds.size.h - BOTTOM_LAYER_HEIGHT, bounds.size.w, BOTTOM_LAYER_HEIGHT));
     layer_add_child(root_layer, s_bottom_layer);
+    */
 
     settings_handler(NULL);
     s_settings_event_handle = enamel_settings_received_subscribe(settings_handler, NULL);

@@ -35,17 +35,19 @@ TopLayer *top_layer_create(GRect frame) {
     GRect bounds = layer_get_bounds(this);
 
 #ifndef PBL_PLATFORM_APLITE
-    data->quiet_time_layer = quiet_time_layer_create(GRect(0, 0, CB_WIDTH, TOP_LAYER_HEIGHT));
+    data->quiet_time_layer = quiet_time_layer_create(GRect(bounds.size.h - TOP_LAYER_HEIGHT, 0, TOP_LAYER_HEIGHT, CB_WIDTH));
     layer_add_child(this, data->quiet_time_layer);
 #endif
 
-    data->connection_layer = connection_layer_create(GRect(0, 0, CB_WIDTH, TOP_LAYER_HEIGHT));
+    data->connection_layer = connection_layer_create(GRect(0, bounds.size.h - CB_WIDTH, TOP_LAYER_HEIGHT, CB_WIDTH));
     layer_add_child(this, data->connection_layer);
-
-    data->date_layer = date_layer_create(GRect(0, 0, bounds.size.w, TOP_LAYER_HEIGHT));
+    
+    /*
+    data->date_layer = date_layer_create(GRect(0, 0, TOP_LAYER_HEIGHT, bounds.size.h));
     layer_add_child(this, data->date_layer);
+    */
 
-    data->battery_layer = battery_layer_create(GRect(bounds.size.w - CB_WIDTH, 0, bounds.size.w, TOP_LAYER_HEIGHT));
+    data->battery_layer = battery_layer_create(GRect(0, 0, TOP_LAYER_HEIGHT, CB_WIDTH));
     layer_add_child(this, data->battery_layer);
 
     return this;

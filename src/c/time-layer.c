@@ -14,16 +14,18 @@ typedef struct __attribute__((packed)) {
 
 static void update_proc(Layer *this, GContext *ctx) {
     log_func();
+    
     Data *data = layer_get_data(this);
     GRect bounds = layer_get_unobstructed_bounds(this);
-    FPoint center = FPointI(bounds.size.w / 2, bounds.size.h / 2 - PBL_IF_DISPLAY_LARGE_ELSE(7, 5));
+    FPoint center = FPointI(bounds.size.w / 2, bounds.size.h / 2);
 
     FContext fctx;
     fctx_init_context(&fctx, ctx);
 
-    int16_t font_size = PBL_IF_DISPLAY_LARGE_ELSE(80, 60);
+
+    int16_t font_size = PBL_IF_DISPLAY_LARGE_ELSE(90, 70);
     fixed_t str_width;
-    fixed_t width = INT_TO_FIXED(bounds.size.w);
+    fixed_t width = INT_TO_FIXED(bounds.size.h);
 
     do {
         fctx_set_text_em_height(&fctx, data->font, font_size--);
@@ -37,6 +39,7 @@ static void update_proc(Layer *this, GContext *ctx) {
     fctx_set_offset(&fctx, center);
 
     fctx_begin_fill(&fctx);
+    fctx_set_rotation(&fctx, TRIG_MAX_ANGLE / 4);
     fctx_draw_string(&fctx, data->buf, data->font, GTextAlignmentCenter, FTextAnchorMiddle);
     fctx_end_fill(&fctx);
 

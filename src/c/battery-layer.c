@@ -8,14 +8,14 @@
 static const GPathInfo PATH_INFO = {
     .num_points = 8,
     .points = (GPoint []) {
-		{0, BAT_T}, 
-		{BAT_W-1, BAT_T}, 
-		{BAT_W-1, BAT_T+(BAT_H+BAT_G)/2}, 
-		{BAT_W,   BAT_T+(BAT_H+BAT_G)/2}, 
-		{BAT_W,   BAT_T+(BAT_H-BAT_G)/2}, 
-		{BAT_W-1, BAT_T+(BAT_H-BAT_G)/2}, 
-		{BAT_W-1, BAT_T+BAT_H}, 
-		{0, BAT_T+BAT_H} 
+		{BAT_T, 0}, 
+		{BAT_T, BAT_W-1}, 
+		{BAT_T+(BAT_H+BAT_G)/2, BAT_W-1}, 
+		{BAT_T+(BAT_H+BAT_G)/2, BAT_W}, 
+		{BAT_T+(BAT_H-BAT_G)/2, BAT_W}, 
+		{BAT_T+(BAT_H-BAT_G)/2, BAT_W-1}, 
+		{BAT_T+BAT_H, BAT_W-1}, 
+		{BAT_T+BAT_H, 0} 
 		} 
 };
 
@@ -32,19 +32,25 @@ static void update_proc(Layer *this, GContext *ctx) {
     Data *data = layer_get_data(this);
 
     graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
+
+    graphics_context_set_fill_color(ctx, colors_get_foreground_color());
+
+    //graphics_fill_rect(ctx, layer_get_bounds(this), 0, GCornerNone);
+    //return;
+
     gpath_draw_outline(ctx, data->gpath);
 
     if (data->state.is_charging) {
         //gdraw_command_image_draw(ctx, data->battery_charging_pdc, offset);
     } else {
         
-				uint8_t percent = data->state.charge_percent > 0 ? data->state.charge_percent : 5;
+		uint8_t percent = data->state.charge_percent > 0 ? data->state.charge_percent : 5;
         GColor color = colors_get_foreground_color();
 				
         graphics_context_set_fill_color(ctx, color);
 
         int w = (BAT_W-4) * percent / 100;
-        graphics_fill_rect(ctx, GRect(2, BAT_T+2, w, BAT_H-3), 0, GCornerNone);
+        graphics_fill_rect(ctx, GRect(BAT_T+2, 2, BAT_H-3, w), 0, GCornerNone);
     }
 }
 
@@ -69,6 +75,8 @@ BatteryLayer *battery_layer_create(GRect frame) {
     GRect bounds = layer_get_bounds(this);
 
     data->gpath = gpath_create(&PATH_INFO);
+
+    //gpath_move_to(data->gpath, GPoint((bounds.size.w/2 - BAT_H)/2,0));
 
     battery_state_handler(battery_state_service_peek(), this);
     data->battery_state_event_handle = events_battery_state_service_subscribe_context(battery_state_handler, this);
