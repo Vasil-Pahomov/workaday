@@ -9,11 +9,13 @@
 #include "time-layer.h"
 #include "top-layer.h"
 #include "bottom-layer.h"
+#include "date-layer.h"
 
 static Window *s_window;
 static TimeLayer *s_time_layer;
 static TopLayer *s_top_layer;
 static BottomLayer *s_bottom_layer;
+static DateLayer *s_date_layer;
 
 static EventHandle s_settings_event_handle;
 
@@ -29,11 +31,14 @@ static void window_load(Window *window) {
     Layer *root_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(root_layer);
 
-    s_time_layer = time_layer_create(bounds);
-    layer_add_child(root_layer, s_time_layer);
-
     s_top_layer = top_layer_create(GRect(0, 0, bounds.size.w, TOP_LAYER_HEIGHT));
     layer_add_child(root_layer, s_top_layer);
+
+    s_date_layer = date_layer_create(GRect(0, TOP_LAYER_HEIGHT, bounds.size.w, DATE_LAYER_HEIGHT));
+    layer_add_child(root_layer, s_date_layer);
+
+    s_time_layer = time_layer_create(GRect(0, TOP_LAYER_HEIGHT + DATE_LAYER_HEIGHT, bounds.size.w, bounds.size.h-TOP_LAYER_HEIGHT-BOTTOM_LAYER_HEIGHT-DATE_LAYER_HEIGHT));
+    layer_add_child(root_layer, s_time_layer);
 
     bounds = layer_get_unobstructed_bounds(root_layer);
     s_bottom_layer = bottom_layer_create(GRect(0, bounds.size.h - BOTTOM_LAYER_HEIGHT, bounds.size.w, BOTTOM_LAYER_HEIGHT));
@@ -53,6 +58,7 @@ static void window_unload(Window *window) {
     bottom_layer_destroy(s_bottom_layer);
     top_layer_destroy(s_top_layer);
     time_layer_destroy(s_time_layer);
+    date_layer_destroy(s_date_layer);
 }
 
 static void init(void) {

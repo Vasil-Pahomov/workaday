@@ -4,6 +4,8 @@
 #include <pebble-fctx/ffont.h>
 #include "colors.h"
 #include "time-layer.h"
+#include "top-layer.h"
+#include "date-layer.h"
 
 typedef struct __attribute__((packed)) {
     char buf[9];
@@ -16,12 +18,12 @@ static void update_proc(Layer *this, GContext *ctx) {
     log_func();
     Data *data = layer_get_data(this);
     GRect bounds = layer_get_unobstructed_bounds(this);
-    FPoint center = FPointI(bounds.size.w / 2, bounds.size.h / 2 - PBL_IF_DISPLAY_LARGE_ELSE(7, 5));
+    FPoint center = FPointI(bounds.size.w / 2, TOP_LAYER_HEIGHT + DATE_LAYER_HEIGHT + bounds.size.h / 2);
 
     FContext fctx;
     fctx_init_context(&fctx, ctx);
 
-    int16_t font_size = PBL_IF_DISPLAY_LARGE_ELSE(80, 60);
+    int16_t font_size = 60;
     fixed_t str_width;
     fixed_t width = INT_TO_FIXED(bounds.size.w);
 
@@ -39,6 +41,9 @@ static void update_proc(Layer *this, GContext *ctx) {
     fctx_begin_fill(&fctx);
     fctx_draw_string(&fctx, data->buf, data->font, GTextAlignmentCenter, FTextAnchorMiddle);
     fctx_end_fill(&fctx);
+
+    //graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
+    //graphics_draw_line(ctx, GPoint(0, 0), GPoint(FIXED_TO_INT(center.x), FIXED_TO_INT(center.y)));
 
     fctx_deinit_context(&fctx);
 }

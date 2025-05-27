@@ -27,10 +27,10 @@ static void update_proc(Layer *this, GContext *ctx) {
     Data *data = layer_get_data(this);
 
     GSize size = gdraw_command_image_get_bounds_size(data->steps_pdc);
-    GPoint offset = GPoint(bounds.size.w - size.w, PBL_IF_DISPLAY_LARGE_ELSE(3, 2));
+    GPoint offset = GPoint(bounds.size.w - size.w, 2);
     gdraw_command_image_draw(ctx, data->steps_pdc, offset);
 
-    int h = PBL_IF_DISPLAY_LARGE_ELSE(8, 6);
+    int h = 6;
 /*    GRect rect = GRect(bounds.origin.x + 6, bounds.size.h - h - 2, bounds.size.w - 7, h);
 #ifdef PBL_COLOR
     graphics_context_set_fill_color(ctx, colors_get_foreground_color());
@@ -149,16 +149,16 @@ StepLayer *step_layer_create(GRect frame) {
 #endif
 
     GSize size = gdraw_command_image_get_bounds_size(data->steps_pdc);
-    //GRect rect = GRect(0, 3, bounds.size.w - size.w, PBL_IF_DISPLAY_LARGE_ELSE(26, 18));
+    //GRect rect = GRect(0, 3, bounds.size.w - size.w, 18);
     //data->text_layer = sliding_text_layer_create(rect);
-    //sliding_text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_25, RESOURCE_ID_GILROY_LIGHT_18)));
+    //sliding_text_layer_set_font(data->text_layer, lazy_fonts_get(RESOURCE_ID_GILROY_LIGHT_18));
     //sliding_text_layer_set_text_alignment(data->text_layer, GTextAlignmentRight);
     //sliding_text_layer_set_text(data->text_layer, data->buf_steps);
     //sliding_text_layer_set_duration(data->text_layer, 500);
     //layer_add_child(this, data->text_layer);
 
 		data->text_layer = text_layer_create(GRect(0, 3, bounds.size.w - size.w - 3, bounds.size.h - 3));
-    text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_30, RESOURCE_ID_GILROY_LIGHT_22))); 
+    text_layer_set_font(data->text_layer, lazy_fonts_get(RESOURCE_ID_GILROY_LIGHT_22)); 
     text_layer_set_text(data->text_layer, data->buf_steps);
     text_layer_set_text_alignment(data->text_layer, GTextAlignmentRight);
     text_layer_set_background_color(data->text_layer, GColorClear);

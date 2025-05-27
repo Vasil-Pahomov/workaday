@@ -16,34 +16,35 @@ typedef struct __attribute__((packed)) {
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *context) {
     log_func();
+
     Data *data = layer_get_data(context);
     const char *format = enamel_get_DATE_FORMAT();
     if (strlen(format) == 0) {
 				char * buf = data->buf_date;
 				switch (tick_time->tm_wday) {
 					case 0:
-						strcpy(buf,"вс, "); 
+						strcpy(buf,"ВС "); 
 						break;
 					case 1:
-						strcpy(buf,"пн, "); 
+						strcpy(buf,"ПН "); 
 						break;
 					case 2:
-						strcpy(buf,"вт, "); 
+						strcpy(buf,"ВТ "); 
 						break;
 					case 3:
-						strcpy(buf,"ср, "); 
+						strcpy(buf,"СР "); 
 						break;
 					case 4:
-						strcpy(buf,"чт, "); 
+						strcpy(buf,"ЧТ "); 
 						break;
 					case 5:
-						strcpy(buf,"пт, "); 
+						strcpy(buf,"ПТ "); 
 						break;
 					case 6:
-						strcpy(buf,"сб, "); 
+						strcpy(buf,"СБ "); 
 						break;
 				}
-				buf+=6;
+				buf+=5;
 				snprintf(buf, 3, "%d", tick_time->tm_mday);
 				while(buf[0] != 0) {
 					buf++;
@@ -51,40 +52,40 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed, void *co
 
 				switch (tick_time->tm_mon) {
 					case 0:
-						strcpy(buf," янв"); 
+						strcpy(buf," ЯНВ"); 
 						break;
 					case 1:
-						strcpy(buf," фев"); 
+						strcpy(buf," ФЕВ"); 
 						break;
 					case 2:
-						strcpy(buf," мар"); 
+						strcpy(buf," МАР"); 
 						break;
 					case 3:
-						strcpy(buf," апр"); 
+						strcpy(buf," АПР"); 
 						break;
 					case 4:
-						strcpy(buf," май"); 
+						strcpy(buf," МАЙ"); 
 						break;
 					case 5:
-						strcpy(buf," июн"); 
+						strcpy(buf," ИЮН"); 
 						break;
 					case 6:
-						strcpy(buf," июл"); 
+						strcpy(buf," ИЮЛ"); 
 						break;
 					case 7:
-						strcpy(buf," авг"); 
+						strcpy(buf," АВГ"); 
 						break;
 					case 8:
-						strcpy(buf," сен"); 
+						strcpy(buf," СЕН"); 
 						break;
 					case 9:
-						strcpy(buf," окт"); 
+						strcpy(buf," ОКТ"); 
 						break;
 					case 10:
-						strcpy(buf," ноя"); 
+						strcpy(buf," НОЯ"); 
 						break;
 					case 11:
-						strcpy(buf," дек"); 
+						strcpy(buf," ДЕК"); 
 						break;
 				}
     } else {
@@ -98,7 +99,26 @@ static void settings_handler(void *context) {
     Data *data = layer_get_data(context);
     text_layer_set_text_color(data->text_layer, colors_get_foreground_color());
     time_t now = time(NULL);
-    tick_handler(localtime(&now), DAY_UNIT, context);
+}
+
+static void text_update_proc(Layer *this, GContext *ctx) {
+    log_func();
+	
+    GRect bounds = layer_get_bounds(this);
+
+    graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
+    graphics_draw_line(ctx, GPoint(0, bounds.size.h), GPoint(bounds.size.w, 0));
+	
+}
+
+static void this_update_proc(Layer *this, GContext *ctx) {
+    log_func();
+	
+    GRect bounds = layer_get_bounds(this);
+
+    graphics_context_set_stroke_color(ctx, colors_get_foreground_color());
+    graphics_draw_line(ctx, GPoint(0, 0), GPoint(bounds.size.w, bounds.size.h));
+	
 }
 
 DateLayer *date_layer_create(GRect frame) {
@@ -106,12 +126,16 @@ DateLayer *date_layer_create(GRect frame) {
     DateLayer *this = layer_create_with_data(frame, sizeof(Data));
     Data *data = layer_get_data(this);
     GRect bounds = layer_get_bounds(this);
-    data->text_layer = text_layer_create(GRect(0, 2, bounds.size.w, bounds.size.h-2));
-    text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_25, RESOURCE_ID_GILROY_LIGHT_18))); 
+	int voffset = (DATE_LAYER_HEIGHT-20)/2;
+    data->text_layer = text_layer_create(GRect(0,voffset,bounds.size.w, bounds.size.h-voffset));
+    text_layer_set_font(data->text_layer, lazy_fonts_get(RESOURCE_ID_GILROY_LIGHT_28)); 
     text_layer_set_text(data->text_layer, data->buf_date);
     text_layer_set_text_alignment(data->text_layer, GTextAlignmentCenter);
     text_layer_set_background_color(data->text_layer, GColorClear);
     layer_add_child(this, text_layer_get_layer(data->text_layer));
+    //layer_set_update_proc(text_layer_get_layer(data->text_layer), text_update_proc);
+    //layer_set_update_proc(this, this_update_proc);
+
 //#endif
 
     time_t now = time(NULL);

@@ -19,7 +19,7 @@ static void update_proc(Layer *this, GContext *ctx) {
     Data *data = layer_get_data(this);
 
     if (data->weather_pdc != NULL) {
-        gdraw_command_image_draw(ctx, data->weather_pdc, GPoint(0, PBL_IF_DISPLAY_LARGE_ELSE(8, 6)));
+        gdraw_command_image_draw(ctx, data->weather_pdc, GPoint(0, 6));
     }
 }
 
@@ -111,7 +111,7 @@ WeatherLayer *weather_layer_create(GRect frame) {
     GSize size = gdraw_command_image_get_bounds_size(data->weather_pdc);
     GRect rect = GRect(size.w + 3, 5, bounds.size.w - size.w - 3, bounds.size.h - 5);
     data->text_layer = text_layer_create(rect);
-    text_layer_set_font(data->text_layer, lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_30, RESOURCE_ID_GILROY_LIGHT_22)));
+    text_layer_set_font(data->text_layer, lazy_fonts_get(RESOURCE_ID_GILROY_LIGHT_22));
     text_layer_set_background_color(data->text_layer, GColorClear);
     text_layer_set_text_alignment(data->text_layer, GTextAlignmentCenter);
     text_layer_set_text(data->text_layer, data->buf);

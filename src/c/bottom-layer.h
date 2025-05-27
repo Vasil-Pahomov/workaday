@@ -1,7 +1,7 @@
 #pragma once
 #include <pebble.h>
 
-#define BOTTOM_LAYER_HEIGHT PBL_IF_DISPLAY_LARGE_ELSE(46, 34)
+#define BOTTOM_LAYER_HEIGHT 34
 
 typedef Layer BottomLayer;
 

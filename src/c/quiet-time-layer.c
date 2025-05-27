@@ -23,7 +23,7 @@ QuietTimeLayer *quiet_time_layer_create(GRect frame) {
     QuietTimeLayer *this = layer_create_with_data(frame, sizeof(Data));
     layer_set_update_proc(this, update_proc);
     Data *data = layer_get_data(this);
-    data->font = lazy_fonts_get(PBL_IF_DISPLAY_LARGE_ELSE(RESOURCE_ID_GILROY_LIGHT_14, RESOURCE_ID_GILROY_LIGHT_10));
+    data->font = lazy_fonts_get(RESOURCE_ID_GILROY_LIGHT_10);
     return this;
 }
 

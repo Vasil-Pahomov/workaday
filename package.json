@@ -64,17 +64,7 @@
           "file": "fonts/Gilroy.ttf",
           "characterRegex": "[QT ]",
           "targetPlatforms": [
-            "basalt",
             "diorite"
-          ]
-        },
-        {
-          "type": "font",
-          "name": "GILROY_LIGHT_14",
-          "file": "fonts/Gilroy.ttf",
-          "characterRegex": "[QT ]",
-          "targetPlatforms": [
-            "emery"
           ]
         },
         {
@@ -83,8 +73,6 @@
           "file": "fonts/Gilroy.ttf",
           "characterRegex": "[а-яА-Я0-9k, :%./]",
           "targetPlatforms": [
-            "aplite",
-            "basalt",
             "diorite"
           ]
         },
@@ -94,27 +82,16 @@
           "file": "fonts/Gilroy.ttf",
           "characterRegex": "[0-9°\\-]",
           "targetPlatforms": [
-            "aplite",
-            "basalt",
             "diorite"
           ]
         },
         {
           "type": "font",
-          "name": "GILROY_LIGHT_25",
+          "name": "GILROY_LIGHT_28",
           "file": "fonts/Gilroy.ttf",
-          "characterRegex": "[а-яА-Я0-9k, :%.]",
+          "characterRegex": "[а-яА-Я0-9k, :%.0-9°\\-]",
           "targetPlatforms": [
-            "emery"
-          ]
-        },
-        {
-          "type": "font",
-          "name": "GILROY_LIGHT_30",
-          "file": "fonts/Gilroy.ttf",
-          "characterRegex": "[0-9°\\-]",
-          "targetPlatforms": [
-            "emery"
+            "diorite"
           ]
         },
         {
